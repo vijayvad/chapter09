@@ -14,10 +14,11 @@ podTemplate(yaml: '''
   node(POD_LABEL) {
 
   stage('Start a gradle project') {
-      git branch: 'main', url: 'https://github.com/vishalshende83/week8.git'
+       git 'https://github.com/vijayvad/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition'
       container('gradle') {
         stage('Start Calculator') {
 		sh '''
+              cd Chapter09/sample1
                 echo 'Start Calculator'
 				curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
                 chmod +x ./kubectl
@@ -25,9 +26,9 @@ podTemplate(yaml: '''
                 ./kubectl apply -f hazelcast.yaml
          '''
        }
-	   stage("Test using Curl") {
+	   stage("Testing with curl") {
 		sh '''
-                echo 'Test using Curl'
+                echo 'testing with curl started'
 				test $(curl calculator-service:8080/sum?a=6\\&b=2) -eq 8 && echo 'pass' || 'fail'
 				test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
 				test $(curl calculator-service:8080/div?a=6\\&b=0) -eq Infinity && echo 'pass' || 'fail'
