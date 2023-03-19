@@ -44,6 +44,7 @@ podTemplate(yaml: '''
       container('gradle') {
         stage('test calculator') {
           sh '''
+          cd Chapter09/sample1
           chmod +x gradlew
           test $(curl calculator-service:8080/sum?a=1\\&b=2) -eq 3
           test $(curl calculator-service:8080/div?a=10\\&b=10) -eq 1
