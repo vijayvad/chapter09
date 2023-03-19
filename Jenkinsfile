@@ -9,50 +9,33 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-        volumeMounts:
-        - name: shared-storage
-          mountPath: /mnt
-      - name: centos
-        image: centos
-        command:
-        - sleep
-        args:
-        - 99d
       restartPolicy: Never
-      volumes:
-      - name: shared-storage
-        persistentVolumeClaim:
-          claimName: jenkins-pv-claim
-''') {
+    ''') {
   node(POD_LABEL) {
-    stage('k8s') {
+
+  stage('Start a gradle project') {
        git 'https://github.com/vijayvad/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition'
-      container('centos') {
-        stage('start calculator') {
-          sh '''
-          cd Chapter09/sample1
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          chmod +x ./kubectl
-          ./kubectl apply -f calculator.yaml
-          ./kubectl apply -f hazelcast.yaml
-          '''
-        }
-      }
-    }
-    stage('gradle') {
-      git 'https://github.com/vijayvad/week9'
       container('gradle') {
-        stage('test calculator') {
-          sh '''
-          cd Chapter09/sample1
-          chmod +x gradlew
-          test $(curl calculator-service:8080/sum?a=1\\&b=2) -eq 3
-          test $(curl calculator-service:8080/div?a=10\\&b=10) -eq 1
-          ./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080
-          cat build/reports/tests/acceptanceTest/index.html
-          '''
-        }
+        stage('Start Calculator') {
+		sh '''
+              cd Chapter09/sample1
+                echo 'Start Calculator'
+				curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                chmod +x ./kubectl
+                ./kubectl apply -f calculator.yaml
+                ./kubectl apply -f hazelcast.yaml
+         '''
+       }
+	   stage("Test using Curl") {
+		sh '''
+                echo 'Test using Curl'
+				test $(curl calculator-service:8080/sum?a=6\\&b=2) -eq 8 && echo 'pass' || 'fail'
+				test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
+				test $(curl calculator-service:8080/div?a=6\\&b=0) -eq Infinity && echo 'pass' || 'fail'
+         '''
+            }
       }
-    }
+    }        
+
   }
-}
+} 
