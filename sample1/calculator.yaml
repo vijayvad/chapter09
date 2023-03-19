@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: calculator
-        image: karthikkrish84/calculator1:1.0
+        image: vijayvad/calculator:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
