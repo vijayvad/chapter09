@@ -1,4 +1,4 @@
-# Chapter 9: Advanced Continuous Delivery
+# Chapter 9: Advanced Continuous Delivery-
 
 All the instructions assumes that you have Java 8+ and Docker installed on your system.
 
