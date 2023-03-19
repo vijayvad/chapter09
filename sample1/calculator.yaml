@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: calculator
-        image: vijayvad/calculator:latest
+        image: dlambrig/week8:1.1
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
