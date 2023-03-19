@@ -26,7 +26,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('k8s') {
-       git branch:main url:'https://github.com/vijayvad/week9'
+       git 'https://github.com/vijayvad/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition'
       container('centos') {
         stage('start calculator') {
           sh '''
