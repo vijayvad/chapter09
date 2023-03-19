@@ -26,7 +26,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('k8s') {
-       git 'https://github.com/vijayvad/chapter09/tree/main/sample1'
+       git 'https://github.com/vijayvad/week9'
       container('centos') {
         stage('start calculator') {
           sh '''
@@ -39,7 +39,7 @@ podTemplate(yaml: '''
       }
     }
     stage('gradle') {
-      git 'https://github.com/vijayvad/chapter09/tree/main/sample3'
+      git 'https://github.com/vijayvad/week9'
       container('gradle') {
         stage('test calculator') {
           sh '''
