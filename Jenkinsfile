@@ -28,6 +28,9 @@ podTemplate(yaml: '''
        }
 	   stage("Testing with curl") {
 		sh '''
+		cd Chapter09/sample1
+		chmod +x gradlew
+                ./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080
                 echo 'testing with curl started'
 				test $(curl calculator-service:8080/sum?a=6\\&b=2) -eq 8 && echo 'pass' || 'fail'
 				test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
