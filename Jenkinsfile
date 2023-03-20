@@ -28,12 +28,12 @@ podTemplate(yaml: '''
        }
 	   stage("Testing with curl") {
 		sh '''
-		cd Chapter09/sample1
+		cd Chapter09/sample3
 		chmod +x gradlew
                 ./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080
                          '''
 			publishHTML (target: [
-                        reportDir: 'build/reports/tests/acceptanceTest/',
+                        reportDir: 'Chapter09/sample3/build/reports/tests/acceptanceTest',
                         reportFiles: 'index.html',
                         reportName: "Acceptance Report"
                     ])  
