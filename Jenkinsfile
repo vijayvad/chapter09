@@ -33,7 +33,7 @@ podTemplate(yaml: '''
                 ./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080
                          '''
 			publishHTML (target: [
-                        reportDir: 'build/reports/tests/acceptanceTest',
+                        reportDir: 'build/reports/tests/acceptanceTest/',
                         reportFiles: 'index.html',
                         reportName: "Acceptance Report"
                     ])  
